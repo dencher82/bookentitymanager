@@ -26,7 +26,7 @@ public class Publisher implements Serializable {
 	private static final long serialVersionUID = 2936504086684091721L;
 	@Id
 	String publisherName;
-	@OneToMany(mappedBy = "publisher")
+	@OneToMany(mappedBy = "publisher") // PARENT TABLE
 	Set<Book> books;
 
 	public Publisher(String publisherName) {

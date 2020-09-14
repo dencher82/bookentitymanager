@@ -1,9 +1,12 @@
 package telran.ashkelon2020.book.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
@@ -17,8 +20,17 @@ public class BookRepositoryImpl implements BookRepository {
 
 	@Override
 	public long deleteByAuthorsName(String authorName) {
-		// TODO Auto-generated method stub
-		return 0;
+//		TypedQuery<Book> query = em.createQuery("select b from Book b join b.authors a where a.name=?1", Book.class);
+//		query.setParameter(1, authorName);
+//		query.getResultStream().forEach(b -> em.remove(b));
+//		return query.getMaxResults();
+				
+		TypedQuery<String> queryBooks = em.createQuery("select b.isbn from Book b join b.authors a where a.name=?1", String.class);
+		queryBooks.setParameter(1, authorName);
+		List<String> booksIsbn = queryBooks.getResultList();
+		Query query = em.createQuery("delete from Book b where b.isbn in ?1");
+		query.setParameter(1, booksIsbn);
+		return query.executeUpdate();
 	}
 
 	@Override

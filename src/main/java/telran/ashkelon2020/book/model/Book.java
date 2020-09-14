@@ -31,7 +31,7 @@ public class Book implements Serializable {
 	String isbn;
 	String title;
 	@ManyToMany
-	@JoinTable(
+	@JoinTable( // CHILD TABLE
 				name = "BOOK_AUTHORS",
 				joinColumns = @JoinColumn(name = "BOOK_ISBN"),
 				inverseJoinColumns = @JoinColumn(name = "AUTHORS_NAME")
